@@ -1,10 +1,13 @@
 package com.crypto.controller;
 
 import com.crypto.config.JwtProvider;
+import com.crypto.model.TwoFactorOTP;
 import com.crypto.model.User;
 import com.crypto.repository.UserRepository;
 import com.crypto.response.AuthResponse;
 import com.crypto.service.CustomUserDetailsService;
+import com.crypto.service.TwoFactorOtpService;
+import com.crypto.utils.OtpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +30,9 @@ public class AuthController {
 
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
+
+    @Autowired
+    private TwoFactorOtpService twoFactorOtpService;
 
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> register(@RequestBody User user) {
@@ -52,6 +58,7 @@ public class AuthController {
 
         AuthResponse res = new AuthResponse();
         res.setJwt(jwt);
+        res.setStatus(true);
         res.setMessage("Register Success");
 
         return new ResponseEntity<>(res, HttpStatus.CREATED);
@@ -68,11 +75,28 @@ public class AuthController {
 
         String jwt = JwtProvider.generateToken(auth);
 
-        AuthResponse res = new AuthResponse();
-        res.setJwt(jwt);
-        res.setMessage("Login Success");
+        User authUser = userRepository.findByEmail(userName);
 
-        return new ResponseEntity<>(res, HttpStatus.CREATED);
+        if (user.getTwoFactorAuth().isEnabled()) {
+            AuthResponse res = new AuthResponse();
+            res.setMessage("Two factor auth is enabled");
+            res.setStatus(true);
+            String otp = OtpUtils.generateOtp();
+
+            TwoFactorOTP oldTwoFactorOTP = twoFactorOtpService.findByUser(authUser.getId());
+            if (oldTwoFactorOTP != null) {
+                twoFactorOtpService.deleteTwoFactorOtp(oldTwoFactorOTP);
+            }
+
+            TwoFactorOTP newTwoFactorOTP = twoFactorOtpService.createTwoFactorOtp(authUser, otp, jwt);
+            res.setSession(newTwoFactorOTP.getId());
+            return new ResponseEntity<>(res, HttpStatus.ACCEPTED);
+        }
+        AuthResponse authRes = new AuthResponse();
+        authRes.setJwt(jwt);
+        authRes.setMessage("Login Success");
+
+        return new ResponseEntity<>(authRes, HttpStatus.CREATED);
     }
 
     private Authentication authenticate(String username, String password) {
