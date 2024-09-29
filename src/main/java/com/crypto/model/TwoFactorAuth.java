@@ -1,10 +1,10 @@
 package com.crypto.model;
 
-import com.crypto.domain.VerficationType;
+import com.crypto.domain.VerificationType;
 import lombok.Data;
 
 @Data
 public class TwoFactorAuth {
     private boolean isEnabled = false;
-    private VerficationType sendTo;
+    private VerificationType sendTo;
 }

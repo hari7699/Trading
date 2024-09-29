@@ -1,6 +1,6 @@
 package com.crypto.domain;
 
-public enum VerficationType {
+public enum VerificationType {
     MOBILE,
     EMAIL
 }

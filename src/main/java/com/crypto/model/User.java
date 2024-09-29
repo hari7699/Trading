@@ -1,7 +1,6 @@
 package com.crypto.model;
 
 import com.crypto.domain.USER_ROLE;
-import com.crypto.domain.VerficationType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

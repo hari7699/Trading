@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/home")
 public class HomeController {
 
-    @GetMapping("/page")
+    @GetMapping("/homePage")
     public String home() {
-        return "Wellcome to trading page";
+        return "Welcome to trading page";
     }
 }

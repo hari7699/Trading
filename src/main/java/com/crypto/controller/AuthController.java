@@ -36,7 +36,7 @@ public class AuthController {
     @Autowired
     private EmailService emailService;
 
-    @PostMapping("/signup")
+    @PostMapping("/signUp")
     public ResponseEntity<AuthResponse> register(@RequestBody User user) {
 
         User isEmail = userRepository.findByEmail(user.getEmail());
@@ -66,8 +66,8 @@ public class AuthController {
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
 
-    @PostMapping("/signin")
-    public ResponseEntity<AuthResponse> login(@RequestBody User user) throws MessagingException {
+    @PostMapping("/signIn")
+    public ResponseEntity<AuthResponse> logIn(@RequestBody User user) throws MessagingException {
 
         String userName = user.getEmail();
         String password = user.getPassword();
@@ -117,13 +117,14 @@ public class AuthController {
         return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
     }
 
-    public ResponseEntity<AuthResponse> verifySigninOtp(
+    @PostMapping("/verifySignInOtp/twoFactor/otp/{otp}")
+    public ResponseEntity<AuthResponse> verifySignInOtp(
             @PathVariable String otp,
             @RequestParam String id) throws Exception {
 
         TwoFactorOTP twoFactorOTP = twoFactorOtpService.findById(id);
 
-        if(twoFactorOtpService.verifyTwoFactorOtp(twoFactorOTP,otp)){
+        if (twoFactorOtpService.verifyTwoFactorOtp(twoFactorOTP, otp)) {
             AuthResponse res = new AuthResponse();
             res.setMessage("Two factor auth is verified");
             res.setTwoFactorAuthEnable(true);
