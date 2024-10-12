@@ -127,7 +127,7 @@ public class UserController {
             res.setMessage("password updated successfully");
             return new ResponseEntity<>(res, HttpStatus.ACCEPTED);
         }
-        throw new Exception("wrong otp");
+        throw new Exception("wrong Otp");
     }
 
 }
