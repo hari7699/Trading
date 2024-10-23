@@ -5,7 +5,7 @@ import com.crypto.model.Coin;
 import java.util.List;
 
 public interface CoinService {
-    List<Coin> getAllCoins(int page);
+    List<Coin> getAllCoins(int page) throws Exception;
 
     String getMarketChart(String coinId, int days);
 
