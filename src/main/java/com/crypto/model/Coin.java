@@ -1,9 +1,12 @@
 package com.crypto.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Data;
+
+import java.util.Date;
 
 @Data
 @Entity
@@ -71,7 +74,7 @@ public class Coin {
     public double athChangePercentage;
 
     @JsonProperty("ath_date")
-    public String athDate;
+    public Date athDate;
 
     @JsonProperty("atl")
     public double atl;
@@ -80,11 +83,12 @@ public class Coin {
     public double atlChangePercentage;
 
     @JsonProperty("atl_date")
-    public String atlDate;
+    public Date atlDate;
 
     @JsonProperty("roi")
-    public Object roi;  // You can replace Object with a more specific type if needed
+    @JsonIgnore
+    public String roi;  // You can replace Object with a more specific type if needed
 
     @JsonProperty("last_updated")
-    public String lastUpdated;
+    public Date lastUpdated;
 }
