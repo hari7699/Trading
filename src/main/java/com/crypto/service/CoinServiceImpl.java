@@ -29,7 +29,7 @@ public class CoinServiceImpl implements CoinService {
 
 
     @Override
-    public List<Coin> getAllCoins(int page) throws Exception {
+    public List<Coin> getCoinList(int page) throws Exception {
         String url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=10&page=" + page;
 
         RestTemplate restTemplate = new RestTemplate();
@@ -176,7 +176,7 @@ public class CoinServiceImpl implements CoinService {
     }
 
     @Override
-    public String GetTreadingCoins() throws Exception {
+    public String getTreadingCoins() throws Exception {
         String url = "https://api.coingecko.com/api/v3/search/trading";
 
         RestTemplate restTemplate = new RestTemplate();
