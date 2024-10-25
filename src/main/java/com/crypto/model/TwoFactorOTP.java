@@ -9,6 +9,7 @@ import lombok.Data;
 @Data
 @Entity
 public class TwoFactorOTP {
+
     @Id
     private String id;
 
@@ -20,7 +21,6 @@ public class TwoFactorOTP {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String jwt;
-
 
 
 }
