@@ -93,8 +93,8 @@ public class AuthController {
             TwoFactorOTP newTwoFactorOTP = twoFactorOtpService.createTwoFactorOtp(authUser, otp, jwt);
 
             emailService.sendVerificationOtpEmail(userName, otp);
-
             res.setSession(newTwoFactorOTP.getId());
+
             return new ResponseEntity<>(res, HttpStatus.ACCEPTED);
         }
         AuthResponse authRes = new AuthResponse();
