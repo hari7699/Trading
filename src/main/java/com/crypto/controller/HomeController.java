@@ -10,6 +10,7 @@ public class HomeController {
 
     @GetMapping("/homePage")
     public String home() {
+
         return "Welcome to trading page";
     }
 }
