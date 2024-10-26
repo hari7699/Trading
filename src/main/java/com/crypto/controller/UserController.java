@@ -109,6 +109,7 @@ public class UserController {
         AuthResponse response = new AuthResponse();
         response.setSession(token.getId());
         response.setMessage("password reset otp sent successfully");
+        
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -125,6 +126,7 @@ public class UserController {
             userService.updatePassword(forgotPasswordToken.getUser(), req.getPassword());
             ApiResponse res = new ApiResponse();
             res.setMessage("password updated successfully");
+
             return new ResponseEntity<>(res, HttpStatus.ACCEPTED);
         }
         throw new Exception("wrong otp");
